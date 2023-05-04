@@ -6,23 +6,24 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct ContentView: View {
-    @State private var fat: Double = 0.0
+    @State private var fat: Double = 25
     @State private var protein: Double = 0.0
     @State private var carbohydrates: Double = 0.0
     @State private var kcal: Double = 0.0
 
-    @State private var defaultG: Int = 0
-    @State private var userG: Int = 0
+    @State private var defaultG: Int = 100
+    @State private var userG: Int = 225
     
     @State private var isCalculate: Bool = false
     @FocusState private var isFocused: Bool
     
-    var result: [Double] {
+    var result: [String] {
         
-        let delta: Double = Double(userG - defaultG)
-        let result: [Double] = [fat * delta, protein * delta, carbohydrates * delta, kcal * delta]
+        let delta: Double = Double(userG) / Double(defaultG)
+        let result: [String] = [forTrailingZero(fat * delta), forTrailingZero(protein * delta), forTrailingZero(carbohydrates * delta), forTrailingZero(kcal * delta)]
         
         return result
     }
@@ -81,6 +82,11 @@ struct ContentView: View {
             ) {}
         }
     }
+    
+    func forTrailingZero(_ number: Double) -> String {
+        return String(format: "%g", number)
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
